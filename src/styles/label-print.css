@@ -1,0 +1,102 @@
+/* Print: one physical label per page. Match src/config/labelDimensions.ts */
+@page {
+  size: 62mm 29mm;
+  margin: 0;
+}
+
+@media print {
+  body {
+    margin: 0;
+    background: white;
+  }
+
+  /* Hide app chrome when user prints whole page without react-to-print */
+  .no-print {
+    display: none !important;
+  }
+
+  .label-print-wrapper {
+    display: block;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .label-sheet__meta {
+    display: none !important;
+  }
+
+  .label-print-root {
+    margin: 0;
+    padding: 0;
+  }
+
+  .label-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .label-sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
+
+@media screen {
+  .label-print-wrapper {
+    display: inline-flex;
+    justify-content: center;
+    padding: 1rem;
+    background: #e4e4e7;
+    border-radius: 8px;
+  }
+
+  .label-sheet {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    border: 1px solid #d4d4d8;
+  }
+}
+
+.label-print-root {
+  margin: 0;
+  padding: 0;
+}
+
+.label-sheet {
+  width: 62mm;
+  height: 29mm;
+  margin: 0;
+  padding: 2mm 2.5mm;
+  box-sizing: border-box;
+  background: #fff;
+  color: #000;
+  font-size: 8pt;
+  line-height: 1.15;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5mm;
+}
+
+.label-sheet__title {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.label-sheet__line {
+  font-size: 8pt;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.label-sheet__meta {
+  font-size: 7pt;
+  color: #71717a;
+  margin-top: auto;
+}

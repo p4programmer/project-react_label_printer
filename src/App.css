@@ -1,0 +1,110 @@
+.app-shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.app-header {
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #52525b;
+}
+
+.app-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e4e4e7;
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.app-card h2 {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.field-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #3f3f46;
+}
+
+.field-grid input,
+.field-grid textarea {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #d4d4d8;
+  background: #fafafa;
+  resize: vertical;
+  min-height: 2.5rem;
+}
+
+.field-grid textarea {
+  min-height: 4rem;
+  line-height: 1.4;
+}
+
+.field-grid input:focus,
+.field-grid textarea:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 0;
+  border-color: #2563eb;
+  background: #fff;
+}
+
+.preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.preview-actions button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #18181b;
+  color: #fafafa;
+}
+
+.preview-actions button:hover {
+  background: #27272a;
+}
+
+.preview-actions button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.preview-actions span {
+  font-size: 0.8rem;
+  color: #71717a;
+}
