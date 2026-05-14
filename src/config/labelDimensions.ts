@@ -1,4 +1,4 @@
-/** Default stock: 62 × 29 mm die-cut (common office address / small shipping label). */
+/** Default die-cut size when only a single constant is needed (e.g. docs scripts). For UI presets see `paperStocks.ts`. */
 export const LABEL_WIDTH_MM = 62;
 export const LABEL_HEIGHT_MM = 29;
 

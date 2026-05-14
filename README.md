@@ -1,10 +1,20 @@
 # React label printer (office / SMB)
 
-Small React app that lays out a single die-cut label and prints it through the **browser print dialog**. The OS driver sends output to your label printer—no vendor SDK is required for this flow.
+Small React app that lays out a label for **selectable paper presets** (Epson-style die-cut, Brother DK rolls). Printing goes through the **browser print dialog**; the OS driver sends output to your label printer.
 
-## Default label size
+## Paper / tape presets
 
-The layout is fixed to **62 × 29 mm** (see [`src/config/labelDimensions.ts`](src/config/labelDimensions.ts) and [`src/styles/label-print.css`](src/styles/label-print.css)). That matches a common office thermal stock (for example Brother DK-style narrow address labels). To support another roll, change the constants and the `@page` / `.label-sheet` dimensions together.
+Choose **Paper / tape** in the app. Presets are defined in [`src/config/paperStocks.ts`](src/config/paperStocks.ts).
+
+| Preset | Size | Notes |
+|--------|------|--------|
+| 62×29 mm die-cut (Epson LW / narrow office) | 62 × 29 mm | Die-cut / die-style narrow labels (e.g. Brother DK-11209 class). |
+| Brother DK-2205 continuous | 62 mm wide, **auto height** | Continuous tape; height follows content (clamped **20–300 mm**). Preview measures layout for `@page`. |
+| Brother DK-11201 standard address | 29 × 90 mm | Die-cut standard address labels (typical Brother spec; 400 labels per roll). |
+
+`@page` size for browser printing is set at runtime from the selected preset. Legacy constants for scripts remain in [`src/config/labelDimensions.ts`](src/config/labelDimensions.ts).
+
+**Printer layout** (vertical vs horizontal) swaps the page width and height for preview and `@page` (portrait vs landscape). Use the same orientation in your driver if the job does not match how the label is loaded on the printer.
 
 ## Run locally
 
@@ -13,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Open the URL Vite prints (usually `http://localhost:5173`). Edit the fields, then **Print label** and choose your label printer in the system dialog.
+Open the URL Vite prints (usually `http://localhost:5173`). Edit the fields, choose **Paper / tape** and **Printer layout**, then **Print label** and pick your printer in the system dialog.
 
 ```bash
 npm run build   # production bundle
@@ -22,7 +32,7 @@ npm run preview # serve dist
 
 ## Printer choice (research summary)
 
-Because printing goes through the **system dialog**, any printer with a reliable driver and a matching **custom paper / label size** can work. For typical office die-cut labels:
+Because printing goes through the **system dialog**, any printer with a reliable driver and a matching **custom paper / label size** can work.
 
 ### Brother QL family
 
@@ -42,16 +52,16 @@ Because printing goes through the **system dialog**, any printer with a reliable
 3. **OS:** Validate drivers on each platform you deploy (especially macOS).
 4. **Barcodes:** If you add barcodes later, render them at adequate resolution (SVG or high-DPI raster) and test scans on real hardware.
 
-### Industrial / silent printing
+### Silent or programmatic printing
 
-If you later need **no print dialog**, **direct USB from the browser**, or **ZPL over the network** (Zebra and similar), you would adopt a different integration (WebUSB, a local agent, or raw network printing). This project’s v1 scope is **dialog-based OS printing** only.
+If you need **no print dialog** or **automation from another program**, you would add a different integration (desktop shell, vendor SDK, raw network printing, etc.). This project uses **dialog-based browser printing** only.
 
 ## Print dialog tips
 
 1. In the dialog, select your **label printer** (not the default office copier).
 2. Set **paper / media size** to the same dimensions as the label (or the driver’s preset for that roll, if listed).
 3. Disable **headers and footers** in the browser’s print options when available, so URLs and dates do not appear on the label.
-4. Margins: this app uses `@page { margin: 0 }` and a full-bleed label box; if the driver adds non-printable margins, adjust driver settings or slightly reduce content padding in [`src/styles/label-print.css`](src/styles/label-print.css).
+4. Margins: the app uses `@page { margin: 0 }` and a full-bleed label box; if the driver adds non-printable margins, adjust driver settings or slightly reduce content padding in [`src/styles/label-print.css`](src/styles/label-print.css).
 
 ## Browser notes
 
@@ -61,7 +71,10 @@ Custom `@page` sizes are interpreted most consistently in **Chromium** (Chrome, 
 
 | Path | Role |
 |------|------|
-| [`src/App.tsx`](src/App.tsx) | Form state, **Print label** using `react-to-print` |
+| [`src/App.tsx`](src/App.tsx) | Form state, preview ref, print wiring |
+| [`src/components/PrintSetupCard.tsx`](src/components/PrintSetupCard.tsx) | Print button + checklist |
 | [`src/components/LabelPreview.tsx`](src/components/LabelPreview.tsx) | Label markup |
-| [`src/styles/label-print.css`](src/styles/label-print.css) | Screen + `@media print` + `@page` |
-| [`src/config/labelDimensions.ts`](src/config/labelDimensions.ts) | Single source for width/height (mm) |
+| [`src/styles/label-print.css`](src/styles/label-print.css) | Screen + `@media print` label layout |
+| [`src/config/paperStocks.ts`](src/config/paperStocks.ts) | Paper presets (sizes) |
+| [`src/config/labelLayoutOrientation.ts`](src/config/labelLayoutOrientation.ts) | Vertical / horizontal layout labels |
+| [`src/config/labelDimensions.ts`](src/config/labelDimensions.ts) | Default 62×29 mm constants for legacy scripts |
